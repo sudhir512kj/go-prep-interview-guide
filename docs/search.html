@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golang Interview Prep - Searchable Docs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: #00ADD8;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            text-align: center;
+            font-size: 2em;
+        }
+
+        .search-container {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        #searchInput {
+            flex: 1;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #searchInput:focus {
+            border-color: #00ADD8;
+        }
+
+        .search-btn {
+            padding: 12px 30px;
+            background: #00ADD8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #009FC7;
+        }
+
+        .search-options {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-options label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .search-options input[type="checkbox"] {
+            cursor: pointer;
+        }
+
+        .doc-selector {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .doc-selector h2 {
+            margin-bottom: 15px;
+            color: #00ADD8;
+        }
+
+        .doc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .doc-card {
+            padding: 15px;
+            background: #f9f9f9;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .doc-card:hover {
+            border-color: #00ADD8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .doc-card.active {
+            border-color: #00ADD8;
+            background: #e6f7ff;
+        }
+
+        .doc-card h3 {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .doc-card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .results-container {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00ADD8;
+        }
+
+        .results-count {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .clear-btn {
+            padding: 8px 20px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .clear-btn:hover {
+            background: #cc0000;
+        }
+
+        .result-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #00ADD8;
+            border-radius: 5px;
+        }
+
+        .result-doc {
+            color: #00ADD8;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .result-section {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .result-content {
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #00ADD8;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #00ADD8;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .tips {
+            background: #fff3cd;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .tips h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .tips ul {
+            margin-left: 20px;
+            color: #856404;
+        }
+
+        @media (max-width: 768px) {
+            .doc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .search-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🔍 Golang Interview Prep - Document Search</h1>
+    </header>
+
+    <div class="container">
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search across all documents... (e.g., 'goroutine', 'interface', 'binary search')">
+                <button class="search-btn" onclick="performSearch()">Search</button>
+            </div>
+            <div class="search-options">
+                <label>
+                    <input type="checkbox" id="caseSensitive"> Case Sensitive
+                </label>
+                <label>
+                    <input type="checkbox" id="wholeWord"> Whole Word
+                </label>
+                <label>
+                    <input type="checkbox" id="regex"> Regular Expression
+                </label>
+            </div>
+        </div>
+
+        <div class="tips">
+            <h3>💡 Search Tips:</h3>
+            <ul>
+                <li>Use quotes for exact phrases: "error handling"</li>
+                <li>Use OR for multiple terms: goroutine OR channel</li>
+                <li>Use - to exclude: concurrency -mutex</li>
+                <li>Enable regex for advanced patterns: \b\w+able\b</li>
+            </ul>
+        </div>
+
+        <div class="doc-selector">
+            <h2>📚 Select Documents to Search</h2>
+            <div class="doc-grid">
+                <div class="doc-card active" data-doc="all">
+                    <h3>🔍 All Documents</h3>
+                    <p>Search across all documentation</p>
+                </div>
+                <div class="doc-card" data-doc="01-golang-basics">
+                    <h3>📖 Golang Basics</h3>
+                    <p>Fundamentals & syntax</p>
+                </div>
+                <div class="doc-card" data-doc="02-data-structures">
+                    <h3>🗂️ Data Structures</h3>
+                    <p>Arrays, trees, graphs</p>
+                </div>
+                <div class="doc-card" data-doc="03-algorithms">
+                    <h3>⚙️ Algorithms</h3>
+                    <p>Sorting, searching, DP</p>
+                </div>
+                <div class="doc-card" data-doc="04-concurrency">
+                    <h3>🔄 Concurrency</h3>
+                    <p>Goroutines & channels</p>
+                </div>
+                <div class="doc-card" data-doc="05-error-handling">
+                    <h3>⚠️ Error Handling</h3>
+                    <p>Error patterns</p>
+                </div>
+                <div class="doc-card" data-doc="06-testing">
+                    <h3>🧪 Testing</h3>
+                    <p>Unit tests & benchmarks</p>
+                </div>
+                <div class="doc-card" data-doc="07-best-practices">
+                    <h3>✨ Best Practices</h3>
+                    <p>Patterns & optimization</p>
+                </div>
+                <div class="doc-card" data-doc="08-interview-questions">
+                    <h3>❓ Interview Questions</h3>
+                    <p>60 Q&A</p>
+                </div>
+                <div class="doc-card" data-doc="09-quick-reference">
+                    <h3>⚡ Quick Reference</h3>
+                    <p>Cheat sheets</p>
+                </div>
+                <div class="doc-card" data-doc="10-practice-exercises">
+                    <h3>💪 Practice</h3>
+                    <p>35 exercises</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-container" id="resultsContainer">
+            <div class="results-header">
+                <h2>Search Results</h2>
+                <div>
+                    <span class="results-count" id="resultsCount"></span>
+                    <button class="clear-btn" onclick="clearResults()">Clear</button>
+                </div>
+            </div>
+            <div id="resultsContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedDoc = 'all';
+        const documents = {
+            '01-golang-basics': '01-golang-basics.md',
+            '02-data-structures': '02-data-structures.md',
+            '03-algorithms': '03-algorithms.md',
+            '04-concurrency': '04-concurrency.md',
+            '05-error-handling': '05-error-handling.md',
+            '06-testing': '06-testing.md',
+            '07-best-practices': '07-best-practices.md',
+            '08-interview-questions': '08-interview-questions.md',
+            '09-quick-reference': '09-quick-reference.md',
+            '10-practice-exercises': '10-practice-exercises.md'
+        };
+
+        // Document selection
+        document.querySelectorAll('.doc-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.doc-card').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                selectedDoc = this.dataset.doc;
+            });
+        });
+
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        async function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            if (!searchTerm) {
+                alert('Please enter a search term');
+                return;
+            }
+
+            const resultsContainer = document.getElementById('resultsContainer');
+            const resultsContent = document.getElementById('resultsContent');
+            
+            resultsContainer.classList.add('show');
+            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div>Searching...</div>';
+
+            try {
+                const results = await searchDocuments(searchTerm);
+                displayResults(results, searchTerm);
+            } catch (error) {
+                resultsContent.innerHTML = `<div class="no-results">Error: ${error.message}</div>`;
+            }
+        }
+
+        async function searchDocuments(searchTerm) {
+            const caseSensitive = document.getElementById('caseSensitive').checked;
+            const wholeWord = document.getElementById('wholeWord').checked;
+            const useRegex = document.getElementById('regex').checked;
+
+            let pattern;
+            if (useRegex) {
+                pattern = new RegExp(searchTerm, caseSensitive ? 'g' : 'gi');
+            } else {
+                const escapedTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const wordBoundary = wholeWord ? '\\b' : '';
+                pattern = new RegExp(wordBoundary + escapedTerm + wordBoundary, caseSensitive ? 'g' : 'gi');
+            }
+
+            const results = [];
+            const docsToSearch = selectedDoc === 'all' ? Object.keys(documents) : [selectedDoc];
+
+            for (const docKey of docsToSearch) {
+                try {
+                    const response = await fetch(documents[docKey]);
+                    const content = await response.text();
+                    const matches = findMatches(content, pattern, docKey);
+                    results.push(...matches);
+                } catch (error) {
+                    console.error(`Error loading ${docKey}:`, error);
+                }
+            }
+
+            return results;
+        }
+
+        function findMatches(content, pattern, docKey) {
+            const lines = content.split('\n');
+            const matches = [];
+            let currentSection = 'Introduction';
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                
+                // Track current section
+                if (line.startsWith('##')) {
+                    currentSection = line.replace(/^#+\s*/, '').trim();
+                }
+
+                // Find matches
+                if (pattern.test(line)) {
+                    const context = getContext(lines, i, 2);
+                    matches.push({
+                        doc: docKey,
+                        section: currentSection,
+                        lineNumber: i + 1,
+                        content: context,
+                        line: line
+                    });
+                }
+            }
+
+            return matches;
+        }
+
+        function getContext(lines, index, contextLines) {
+            const start = Math.max(0, index - contextLines);
+            const end = Math.min(lines.length, index + contextLines + 1);
+            return lines.slice(start, end).join('\n');
+        }
+
+        function displayResults(results, searchTerm) {
+            const resultsContent = document.getElementById('resultsContent');
+            const resultsCount = document.getElementById('resultsCount');
+
+            if (results.length === 0) {
+                resultsContent.innerHTML = '<div class="no-results">No results found. Try different keywords or check spelling.</div>';
+                resultsCount.textContent = '0 results';
+                return;
+            }
+
+            resultsCount.textContent = `${results.length} result${results.length > 1 ? 's' : ''} found`;
+
+            const html = results.map(result => {
+                const highlightedContent = highlightText(result.content, searchTerm);
+                return `
+                    <div class="result-item">
+                        <div class="result-doc">📄 ${getDocTitle(result.doc)}</div>
+                        <div class="result-section">📍 Section: ${result.section} (Line ${result.lineNumber})</div>
+                        <div class="result-content">${highlightedContent}</div>
+                    </div>
+                `;
+            }).join('');
+
+            resultsContent.innerHTML = html;
+        }
+
+        function highlightText(text, searchTerm) {
+            const caseSensitive = document.getElementById('caseSensitive').checked;
+            const escapedTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const pattern = new RegExp(escapedTerm, caseSensitive ? 'g' : 'gi');
+            
+            return text
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(pattern, match => `<span class="highlight">${match}</span>`);
+        }
+
+        function getDocTitle(docKey) {
+            const titles = {
+                '01-golang-basics': 'Golang Basics',
+                '02-data-structures': 'Data Structures',
+                '03-algorithms': 'Algorithms',
+                '04-concurrency': 'Concurrency',
+                '05-error-handling': 'Error Handling',
+                '06-testing': 'Testing',
+                '07-best-practices': 'Best Practices',
+                '08-interview-questions': 'Interview Questions',
+                '09-quick-reference': 'Quick Reference',
+                '10-practice-exercises': 'Practice Exercises'
+            };
+            return titles[docKey] || docKey;
+        }
+
+        function clearResults() {
+            document.getElementById('resultsContainer').classList.remove('show');
+            document.getElementById('searchInput').value = '';
+        }
+    </script>
+</body>
+</html>
