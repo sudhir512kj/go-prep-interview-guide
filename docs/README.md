@@ -131,6 +131,14 @@ Find any topic quickly with our comprehensive navigation guide.
 - **[Context Package](./concurrency/05-context-package.md)** - Context management
 - **[Summary](./concurrency/00-SUMMARY.md)** - Quick reference
 
+### 🔥 [Go Fundamentals Deep Dive](./go-fundamentals/README.md)
+- **[Pointers](./go-fundamentals/01-pointers-deep-dive.md)** - Memory model, escape analysis, unsafe, pointer receivers
+- **[Structs](./go-fundamentals/02-structs-deep-dive.md)** - Memory layout, padding, embedding, tags, patterns
+- **[Interfaces](./go-fundamentals/03-interfaces-deep-dive.md)** - iface internals, type assertions, composition, pitfalls
+- **[Functions & Closures](./go-fundamentals/04-functions-closures-deep-dive.md)** - Stack frames, closures, defer, panic/recover
+- **[Types & Generics](./go-fundamentals/05-types-generics-deep-dive.md)** - Named types, aliases, generics, constraints, reflection
+- **[Error Handling](./go-fundamentals/06-error-handling-deep-dive.md)** - error internals, wrapping, Is/As, patterns
+
 ### 🔥 [Data Structures Deep Dive](./data-structures/README.md)
 - **[Arrays & Slices](./data-structures/01-arrays-slices-deep-dive.md)** - Slice header, growth strategy, memory leaks
 - **[Maps](./data-structures/02-maps-deep-dive.md)** - Hash table internals, buckets, rehashing
