@@ -2,15 +2,15 @@
 
 Complete guide for Golang interview preparation covering fundamentals, data structures, algorithms, concurrency, and best practices.
 
-## 🔍 [Search Documentation](./docs/search.html)
+## 🔍 [Search Documentation](./search.html)
 
-Open `docs/search.html` in your browser for powerful search across all documents with highlighting, filtering, and regex support. See [Search Guide](./docs/SEARCH-GUIDE.md) for details.
+Open `search.html` in your browser for powerful search across all documents with highlighting, filtering, and regex support. See [Search Guide](./SEARCH-GUIDE.md) for details.
 
-## 📚 [Documentation Overview](./docs/00-overview.md)
+## 📚 [Documentation Overview](./00-overview.md)
 
 Start here for a complete overview of all documents, navigation tips, and study paths.
 
-## 🧭 [Quick Navigation](./docs/NAVIGATION.md)
+## 🧭 [Quick Navigation](./NAVIGATION.md)
 
 Find any topic quickly with our comprehensive navigation guide.
 
