@@ -1,5 +1,53 @@
 # Data Structures in Golang
 
+## Table of Contents
+- [Introduction](#introduction)
+  - [Complexity Analysis](#complexity-analysis)
+- [Arrays and Slices](#arrays-and-slices)
+  - [Memory Layout](#memory-layout)
+  - [Array Operations](#array-operations)
+  - [Slice Operations](#slice-operations)
+- [Maps](#maps)
+  - [Hash Map Implementation](#hash-map-implementation)
+- [Linked List](#linked-list)
+  - [Theory](#theory)
+  - [Singly Linked List](#singly-linked-list)
+  - [Doubly Linked List](#doubly-linked-list)
+- [Stack](#stack)
+  - [Theory](#theory-1)
+  - [Implementation](#implementation)
+- [Queue](#queue)
+  - [Theory](#theory-2)
+  - [Implementation](#implementation-1)
+  - [Circular Queue](#circular-queue)
+- [Binary Tree](#binary-tree)
+  - [Theory](#theory-3)
+  - [Implementation](#implementation-2)
+  - [Tree Traversals](#tree-traversals)
+  - [Tree Operations](#tree-operations)
+- [Heap (Priority Queue)](#heap-priority-queue)
+  - [Theory](#theory-4)
+  - [Implementation](#implementation-3)
+- [Graph](#graph)
+  - [Theory](#theory-5)
+  - [Implementation](#implementation-4)
+  - [Graph Algorithms](#graph-algorithms)
+- [Trie (Prefix Tree)](#trie-prefix-tree)
+  - [Theory](#theory-6)
+  - [Implementation](#implementation-5)
+  - [Trie Operations](#trie-operations)
+- [Union-Find (Disjoint Set)](#union-find-disjoint-set)
+  - [Theory](#theory-7)
+  - [Implementation](#implementation-6)
+- [Segment Tree](#segment-tree)
+  - [Theory](#theory-8)
+  - [Implementation](#implementation-7)
+- [Bloom Filter](#bloom-filter)
+  - [Theory](#theory-9)
+  - [Implementation](#implementation-8)
+
+---
+
 ## Introduction
 
 Data structures are fundamental to efficient programming. Go provides built-in support for arrays, slices, and maps, while other structures can be implemented using these primitives and structs.

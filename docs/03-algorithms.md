@@ -1,5 +1,52 @@
 # Algorithms in Golang
 
+## Table of Contents
+- [Introduction](#introduction)
+  - [Algorithm Analysis](#algorithm-analysis)
+  - [Choosing the Right Algorithm](#choosing-the-right-algorithm)
+- [Sorting Algorithms](#sorting-algorithms)
+  - [Understanding Sorting](#understanding-sorting)
+  - [Bubble Sort](#bubble-sort)
+  - [Selection Sort](#selection-sort)
+  - [Insertion Sort](#insertion-sort)
+  - [Merge Sort](#merge-sort)
+  - [Quick Sort](#quick-sort)
+  - [Heap Sort](#heap-sort)
+- [Searching Algorithms](#searching-algorithms)
+  - [Linear Search](#linear-search)
+  - [Binary Search](#binary-search)
+  - [Binary Search (Recursive)](#binary-search-recursive)
+- [Recursion](#recursion)
+  - [Understanding Recursion](#understanding-recursion)
+  - [Fibonacci](#fibonacci)
+  - [Factorial](#factorial)
+  - [Power](#power)
+- [Dynamic Programming](#dynamic-programming)
+  - [Understanding DP](#understanding-dp)
+  - [Fibonacci (DP)](#fibonacci-dp)
+  - [Longest Common Subsequence](#longest-common-subsequence)
+  - [Knapsack Problem (0/1)](#knapsack-problem-01)
+  - [Coin Change](#coin-change)
+  - [Longest Increasing Subsequence](#longest-increasing-subsequence)
+- [Greedy Algorithms](#greedy-algorithms)
+  - [Understanding Greedy](#understanding-greedy)
+  - [Activity Selection](#activity-selection)
+  - [Fractional Knapsack](#fractional-knapsack)
+- [Two Pointers](#two-pointers)
+  - [Understanding Two Pointers](#understanding-two-pointers)
+  - [Two Sum (Sorted Array)](#two-sum-sorted-array)
+  - [Remove Duplicates](#remove-duplicates)
+- [Sliding Window](#sliding-window)
+  - [Understanding Sliding Window](#understanding-sliding-window)
+  - [Maximum Sum Subarray of Size K](#maximum-sum-subarray-of-size-k)
+  - [Longest Substring Without Repeating Characters](#longest-substring-without-repeating-characters)
+- [Backtracking](#backtracking)
+  - [Understanding Backtracking](#understanding-backtracking)
+  - [Generate Permutations](#generate-permutations)
+  - [N-Queens Problem](#n-queens-problem)
+
+---
+
 ## Introduction
 
 Algorithms are step-by-step procedures for solving problems. Understanding algorithms and their complexity is essential for writing efficient code.

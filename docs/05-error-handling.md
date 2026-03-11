@@ -1,5 +1,51 @@
 # Error Handling in Golang
 
+## Table of Contents
+- [Basic Error Handling](#basic-error-handling)
+  - [Creating Errors](#creating-errors)
+  - [Checking Errors](#checking-errors)
+- [Custom Errors](#custom-errors)
+  - [Custom Error Type](#custom-error-type)
+  - [Error with Additional Context](#error-with-additional-context)
+- [Error Wrapping (Go 1.13+)](#error-wrapping-go-113)
+  - [Wrapping Errors](#wrapping-errors)
+  - [Unwrapping Errors](#unwrapping-errors)
+  - [Error Is](#error-is)
+  - [Error As](#error-as)
+- [Panic and Recover](#panic-and-recover)
+  - [Panic](#panic)
+  - [Recover](#recover)
+  - [Recover in Goroutines](#recover-in-goroutines)
+- [Error Handling Patterns](#error-handling-patterns)
+  - [Multiple Return Values](#multiple-return-values)
+  - [Error Accumulation](#error-accumulation)
+  - [Sentinel Errors](#sentinel-errors)
+  - [Error Context Chain](#error-context-chain)
+- [Best Practices](#best-practices)
+  - [1. Always Check Errors](#1-always-check-errors)
+  - [2. Add Context to Errors](#2-add-context-to-errors)
+  - [3. Use Custom Errors for Domain Logic](#3-use-custom-errors-for-domain-logic)
+  - [4. Don't Panic in Libraries](#4-dont-panic-in-libraries)
+  - [5. Use defer for Cleanup](#5-use-defer-for-cleanup)
+  - [6. Error Logging](#6-error-logging)
+  - [7. Retry Logic with Errors](#7-retry-logic-with-errors)
+- [Error Handling Philosophy in Go](#error-handling-philosophy-in-go)
+  - [Why Explicit Error Handling?](#why-explicit-error-handling)
+  - [Error vs Exception](#error-vs-exception)
+- [Advanced Error Patterns](#advanced-error-patterns)
+  - [Error Wrapping Chain](#error-wrapping-chain)
+  - [Structured Errors](#structured-errors)
+  - [Error Groups](#error-groups)
+- [Panic Recovery Patterns](#panic-recovery-patterns)
+  - [Recovering from Panics in HTTP Handlers](#recovering-from-panics-in-http-handlers)
+  - [Panic in Goroutines](#panic-in-goroutines)
+- [Error Handling in Concurrent Code](#error-handling-in-concurrent-code)
+  - [Collecting Errors from Goroutines](#collecting-errors-from-goroutines)
+  - [Using errgroup Package](#using-errgroup-package)
+- [Testing Error Handling](#testing-error-handling)
+
+---
+
 ## Basic Error Handling
 
 ### Creating Errors
