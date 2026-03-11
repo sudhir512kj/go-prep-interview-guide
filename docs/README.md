@@ -118,6 +118,30 @@ Find any topic quickly with our comprehensive navigation guide.
 - Go Commands
 - Interview Preparation Checklist
 
+### 10. [Practice Exercises](./10-practice-exercises.md)
+- Easy, Medium, Hard Problems
+- Concurrency Exercises
+- System Design Exercises
+- Testing Exercises
+
+### 🔥 [Concurrency Deep Dive](./concurrency/README.md)
+- **[Goroutines Deep Dive](./concurrency/01-goroutines-deep-dive.md)** - Complete goroutine guide
+- **[Channels Deep Dive](./concurrency/02-channels-deep-dive.md)** - Complete channel guide
+- **[Sync Package](./concurrency/04-sync-package.md)** - All sync primitives
+- **[Context Package](./concurrency/05-context-package.md)** - Context management
+- **[Summary](./concurrency/00-SUMMARY.md)** - Quick reference
+
+### 🔥 [Data Structures Deep Dive](./data-structures/README.md)
+- **[Arrays & Slices](./data-structures/01-arrays-slices-deep-dive.md)** - Slice header, growth strategy, memory leaks
+- **[Maps](./data-structures/02-maps-deep-dive.md)** - Hash table internals, buckets, rehashing
+- **[Linked Lists](./data-structures/03-linked-lists-deep-dive.md)** - Singly, doubly, circular, two-pointer techniques
+- **[Stacks & Queues](./data-structures/04-stacks-queues-deep-dive.md)** - Implementations, monotonic stack/queue
+- **[Trees](./data-structures/05-trees-deep-dive.md)** - BST, AVL, Red-Black, all traversals
+- **[Heaps](./data-structures/06-heaps-deep-dive.md)** - Min/max heap, container/heap, heap sort
+- **[Graphs](./data-structures/07-graphs-deep-dive.md)** - DFS, BFS, Dijkstra, MST, topological sort
+- **[Tries](./data-structures/08-tries-deep-dive.md)** - Prefix tree, radix tree, binary trie
+- **[Union-Find, Segment Trees & Bloom Filters](./data-structures/09-union-find-segment-tree-bloom-filter.md)** - Advanced structures
+
 ## How to Use This Guide
 
 1. **For Beginners**: Start with Golang Basics, then move to Data Structures and Algorithms
